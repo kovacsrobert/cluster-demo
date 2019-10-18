@@ -65,64 +65,64 @@ services:
     networks:
       - cluster-network
 
-  cluster-elasticsearch:
-    container_name: cluster-elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    environment:
-      - discovery.type=single-node
-    networks:
-      - cluster-network
-
-  cluster-kibana:
-    container_name: cluster-kibana
-    image: docker.elastic.co/kibana/kibana:7.0.0
-    depends_on:
-      - cluster-elasticsearch
-      - cluster-logstash
-    ports:
-      - "5601:5601"
-    environment:
-      - ELASTICSEARCH_HOSTS=http://cluster-elasticsearch:9200
-    networks:
-      - cluster-network
-
-  cluster-logstash:
-    container_name: cluster-logstash
-    image: docker.elastic.co/logstash/logstash:7.0.0
-    depends_on:
-      - cluster-elasticsearch
-    volumes:
-      - ./cluster-logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./cluster-logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+#  cluster-elasticsearch:
+#    container_name: cluster-elasticsearch
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.0
 #    ports:
-#      - "5044:5044"
-    networks:
-      - cluster-network
-
-  cluster-heartbeat:
-    container_name: cluster-heartbeat
-    image: cluster-heartbeat
-    build: ./cluster-heartbeat
-    depends_on:
-      - cluster-elasticsearch
-      - cluster-kibana
-    networks:
-      - cluster-network
-
-  cluster-filebeat:
-    container_name: cluster-filebeat
-    image: cluster-filebeat
-    build: ./cluster-filebeat
-    depends_on:
-      - cluster-elasticsearch
-      - cluster-kibana
-    volumes:
-      - log-dir:/tmp/cluster-logs/
-    networks:
-      - cluster-network
+#      - "9200:9200"
+#      - "9300:9300"
+#    environment:
+#      - discovery.type=single-node
+#    networks:
+#      - cluster-network
+#
+#  cluster-kibana:
+#    container_name: cluster-kibana
+#    image: docker.elastic.co/kibana/kibana:7.0.0
+#    depends_on:
+#      - cluster-elasticsearch
+#      - cluster-logstash
+#    ports:
+#      - "5601:5601"
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://cluster-elasticsearch:9200
+#    networks:
+#      - cluster-network
+#
+#  cluster-logstash:
+#    container_name: cluster-logstash
+#    image: docker.elastic.co/logstash/logstash:7.0.0
+#    depends_on:
+#      - cluster-elasticsearch
+#    volumes:
+#      - ./cluster-logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+#      - ./cluster-logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+##    ports:
+##      - "5044:5044"
+#    networks:
+#      - cluster-network
+#
+#  cluster-heartbeat:
+#    container_name: cluster-heartbeat
+#    image: cluster-heartbeat
+#    build: ./cluster-heartbeat
+#    depends_on:
+#      - cluster-elasticsearch
+#      - cluster-kibana
+#    networks:
+#      - cluster-network
+#
+#  cluster-filebeat:
+#    container_name: cluster-filebeat
+#    image: cluster-filebeat
+#    build: ./cluster-filebeat
+#    depends_on:
+#      - cluster-elasticsearch
+#      - cluster-kibana
+#    volumes:
+#      - log-dir:/tmp/cluster-logs/
+#    networks:
+#      - cluster-network
 
 volumes:
   log-dir:

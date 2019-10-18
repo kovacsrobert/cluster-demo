@@ -1,3 +1,8 @@
+FROM gradle:4.7.0-jdk8-alpine AS build
+COPY --chown=gradle:gradle . ${projectDir}/cluster-dao
+WORKDIR ${projectDir}/cluster-dao
+RUN gradle build docker --no-daemon
+
 FROM openjdk:8-jdk-alpine
 VOLUME /tmp
 ARG DEPENDENCY=./build/dependency
