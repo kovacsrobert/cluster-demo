@@ -1,9 +1,10 @@
 def BUILD_DOCKER_GROUP = 'Build Docker'
 
 task buildCluster() {
-    dependsOn 'build'
     group = BUILD_DOCKER_GROUP
     description = "Build all images for cluster with docker-compose"
+
+    subprojects.each { dependsOn("${it.name}:build") }
 
     doLast {
         exec {

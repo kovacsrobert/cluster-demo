@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-apply from: "cluster.gradle"
+apply from: "docker-compose.gradle"
 
 allprojects {
     apply plugin: 'java'
@@ -55,19 +55,6 @@ configure(subprojects.findAll {it.name == "cluster-dao" || it.name == "cluster-w
 
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'com.palantir.docker'
-
-    task unpack(type: Copy) {
-        dependsOn bootJar
-        from(zipTree(tasks.bootJar.outputs.files.singleFile))
-        into("build/dependency")
-    }
-
-    docker {
-        name "${project.name}"
-        copySpec.from(tasks.unpack.outputs).into("dependency")
-        buildArgs(['DEPENDENCY': "dependency"])
-    }
 
     dependencies {
         implementation project(':cluster-util')
