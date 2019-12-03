@@ -1,0 +1,39 @@
+def BUILD_DOCKER_GROUP = 'Build Docker'
+
+task buildCluster() {
+    dependsOn 'build'
+    group = BUILD_DOCKER_GROUP
+    description = "Build all images for cluster with docker-compose"
+
+    doLast {
+        exec {
+			executable = "docker-compose"
+			args = ["build"]
+		}
+    }
+}
+
+task startCluster() {
+    dependsOn 'buildCluster'
+    group = BUILD_DOCKER_GROUP
+    description = "Build and run all images for cluster with docker-compose"
+
+    doLast {
+        exec {
+			executable = "docker-compose"
+			args = ["up", "-d"]
+		}
+    }
+}
+
+task stopCluster() {
+    group = BUILD_DOCKER_GROUP
+    description = "Stop all images for cluster with docker-compose"
+
+    doLast {
+        exec {
+			executable = "docker-compose"
+			args = ["down"]
+		}
+    }
+}
