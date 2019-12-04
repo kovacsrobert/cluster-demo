@@ -15,9 +15,10 @@ task buildCluster() {
 }
 
 task startCluster() {
-    dependsOn 'buildCluster'
     group = BUILD_DOCKER_GROUP
     description = "Build and run all images for cluster with docker-compose"
+
+    dependsOn 'buildCluster'
 
     doLast {
         exec {
@@ -34,7 +35,7 @@ task stopCluster() {
     doLast {
         exec {
 			executable = "docker-compose"
-			args = ["down"]
+			args = ["down", "--volumes", "--remove-orphans"]
 		}
     }
 }

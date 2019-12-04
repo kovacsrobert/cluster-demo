@@ -22,9 +22,12 @@
 
     <Loggers>
         <Root level="info" additivity="false">
-            <appender-ref ref="fileLogger" />
             <appender-ref ref="console" />
         </Root>
+
+        <Logger name="hello" level="info" additivity="false">
+            <appender-ref ref="fileLogger" />
+        </Logger>
     </Loggers>
 
 </Configuration>

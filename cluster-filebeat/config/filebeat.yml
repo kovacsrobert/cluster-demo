@@ -2,15 +2,20 @@ filebeat.inputs:
   - type: log
     enabled: true
     paths:
-      - /tmp/cluster-logs/cluster-web-1.log
-      - /tmp/cluster-logs/cluster-web-2.log
-      - /tmp/cluster-logs/cluster-dao.log
+      - /tmp/cluster-logs/*.log
+    harvester_buffer_size: 100
+    multiline:
+      pattern: '^\['
+      negate: false
+      match: before
 #output.elasticsearch:
 #  hosts: ["http://cluster-elasticsearch:9200"]
 #  index: "cluster-filebeat-%{+yyyy.MM.dd}"
 output.logstash:
-  hosts: ["cluster-logstash"]
-  index: "cluster-filebeat-%{+yyyy.MM.dd}"
+  hosts: ["cluster-logstash:5044"]
+  index: "cluster-filebeat"
+  ssl:
+    enabled: false
 setup.template:
   name: "cluster-filebeat"
   pattern: "cluster-filebeat-*"
