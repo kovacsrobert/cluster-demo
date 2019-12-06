@@ -98,32 +98,8 @@ services:
       - ./cluster-logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./cluster-logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
       - log-dir:/tmp/cluster-logs/
-#    ports:
-#      - "5044:5044"
     networks:
       - cluster-network
-
-#  cluster-heartbeat:
-#    container_name: cluster-heartbeat
-#    image: cluster-heartbeat
-#    build: ./cluster-heartbeat
-#    depends_on:
-#      - cluster-elasticsearch
-#      - cluster-kibana
-#    networks:
-#      - cluster-network
-
-#  cluster-filebeat:
-#    container_name: cluster-filebeat
-#    image: cluster-filebeat
-#    build: ./cluster-filebeat
-#    depends_on:
-#      - cluster-elasticsearch
-#      - cluster-kibana
-#    volumes:
-#      - log-dir:/tmp/cluster-logs/
-#    networks:
-#      - cluster-network
 
 volumes:
   log-dir:

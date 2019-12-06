@@ -4,7 +4,11 @@ task buildCluster() {
     group = BUILD_DOCKER_GROUP
     description = "Build all images for cluster with docker-compose"
 
-    subprojects.each { dependsOn("${it.name}:build") }
+    subprojects
+        .each { dependsOn("${it.name}:build") }
+    subprojects
+        .findAll({it.name == "cluster-dao" || it.name == "cluster-web"})
+        .each { dependsOn("${it.name}:copyProdLoggingConfiguration") }
 
     doLast {
         exec {
