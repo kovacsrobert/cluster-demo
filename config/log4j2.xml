@@ -3,26 +3,26 @@
 
     <Properties>
         <Property name="basePath">/tmp/cluster-logs/</Property>
+        <Property name="logPattern">[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} [%X{instanceName}] [%X{traceId}] [%X{spanId}] - %msg%n</Property>
     </Properties>
 
     <Appenders>
         <RollingFile name="fileLogger" fileName="${basePath}/${env:INSTANCE_NAME}.log" filePattern="${basePath}/${env:INSTANCE_NAME}-%d{yyyy-MM-dd}.log">
-            <PatternLayout>
-                <pattern>[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} [%X{instanceName}] - %msg%n</pattern>
-            </PatternLayout>
+            <PatternLayout pattern="${logPattern}" />
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true" />
             </Policies>
         </RollingFile>
 
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout	pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} [%X{instanceName}] - %msg%n" />
+            <PatternLayout pattern="${logPattern}" />
         </Console>
     </Appenders>
 
     <Loggers>
         <Root level="info" additivity="false">
             <appender-ref ref="console" />
+            <appender-ref ref="fileLogger" />
         </Root>
 
         <Logger name="hello" level="info" additivity="false">
