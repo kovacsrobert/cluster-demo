@@ -28,12 +28,12 @@ public class CachingHelloProvider implements HelloProvider {
 	@Override
 	public String welcome(String name) {
 		if (helloCache.containsKey(name)) {
-			logger.info("HelloProvider.welcome(" + name + ") - loaded from cache");
+			logger.info("welcome message loaded from cache with name: {}", name);
 			return helloCache.get(name);
 		}
 
 		String welcomeMessage = daoBasedHelloProvider.welcome(name);
-		logger.info("HelloProvider.welcome(" + name + ") - loaded from Dao");
+		logger.info("welcome message loaded from dao with name: {}", name);
 		helloCache.put(name, welcomeMessage);
 
 		return welcomeMessage;

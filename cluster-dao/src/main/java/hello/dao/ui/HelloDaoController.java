@@ -21,7 +21,8 @@ public class HelloDaoController {
 
 	@GetMapping("/hello/{name}")
 	public String welcome(@PathVariable("name") String name) {
-		logger.debug("HelloDaoController.hello(" + name + ")");
+		logger.info("hello called with: {}", name);
+
 		return helloDao.welcome(name);
 	}
 }

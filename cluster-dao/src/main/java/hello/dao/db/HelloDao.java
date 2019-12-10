@@ -11,7 +11,7 @@ public class HelloDao {
 
 	public String welcome(String name) {
 		String welcomeMessage = "Hello, " + name;
-		logger.info("welcomeMessage: " + welcomeMessage);
+		logger.info("welcome called with: {}, output: {}", name, welcomeMessage);
 		return welcomeMessage;
 	}
 }

@@ -24,11 +24,11 @@ public class DaoBasedHelloProvider implements HelloProvider {
 		try {
 			daoResponse = restTemplate.getForEntity("/hello/{name}", String.class, name);
 		} catch (Exception ex) {
-			logger.error("Failed to fetch welcome message", ex);
+			logger.error("Failed to fetch welcome message for name: {}", name, ex);
 			return "";
 		}
 
-		logger.info("daoResponse: " + daoResponse);
+		logger.debug("welcome message response for name: {}; is: {}", name, daoResponse);
 		return daoResponse.getBody();
 	}
 }
