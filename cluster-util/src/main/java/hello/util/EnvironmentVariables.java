@@ -6,5 +6,7 @@ public interface EnvironmentVariables {
 
 	String DAO_URL = "DAO_URL";
 
+	String WEB_URL = "WEB_URL";
+
 	String TERRACOTTA_HOST = "TERRACOTTA_HOST";
 }

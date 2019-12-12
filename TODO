@@ -1,9 +1,6 @@
-
 Backlog:
-- add SpringCloud logging solution
-- add client to fetch names
-- try solution in AWS
 - add db to dao component
+- try solution in AWS
 - try docker swarm
 - add testing/loading solution
 - add load-balancing
@@ -22,3 +19,5 @@ Done:
 + add ELK stack in docker-compose
 + add filebeat solution
 + refine filebeat fields with logstash: host, log-level
++ add SpringCloud logging solution
++ add client to fetch names

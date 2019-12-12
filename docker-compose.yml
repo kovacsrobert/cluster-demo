@@ -52,6 +52,32 @@ services:
     networks:
       - cluster-network
 
+  cluster-client-1:
+    container_name: cluster-client-1
+    image: cluster-client-1
+    build: cluster-client
+    depends_on:
+      - cluster-web-1
+      - cluster-web-2
+    environment:
+      - INSTANCE_NAME=cluster-client-1
+      - WEB_URL=http://cluster-web-1:8080
+    networks:
+      - cluster-network
+
+  cluster-client-2:
+    container_name: cluster-client-2
+    image: cluster-client-2
+    build: cluster-client
+    depends_on:
+      - cluster-web-1
+      - cluster-web-2
+    environment:
+      - INSTANCE_NAME=cluster-client-2
+      - WEB_URL=http://cluster-web-2:8080
+    networks:
+      - cluster-network
+
   cluster-terracotta:
     container_name: cluster-terracotta
     image: terracotta/terracotta-server-oss:5.6.0

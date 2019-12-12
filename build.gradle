@@ -4,6 +4,7 @@ ext.deps = [
     springFrameworkVersion: '5.2.2.RELEASE',
     log4jVersion: '2.11.2',
     ehcacheVersion: '3.7.1',
+    commonsLang3Version: '3.9',
     guavaVersion: '21.0'
 ]
 
@@ -49,6 +50,7 @@ subprojects {
         compile group: 'org.ehcache', name: 'ehcache-clustered', version: deps.ehcacheVersion
 
         // utility & logging
+        compile group: 'org.apache.commons', name: 'commons-lang3', version: deps.commonsLang3Version
         compile group: 'com.google.guava', name: 'guava', version: deps.guavaVersion
         compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: deps.log4jVersion
         compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: deps.log4jVersion
@@ -58,7 +60,7 @@ subprojects {
     }
 }
 
-configure(subprojects.findAll {it.name == "cluster-dao" || it.name == "cluster-web"}) {
+configure(subprojects.findAll {it.name == "cluster-dao" || it.name == "cluster-web" || it.name == "cluster-client"}) {
 
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
