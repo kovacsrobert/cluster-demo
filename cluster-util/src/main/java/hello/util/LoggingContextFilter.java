@@ -1,38 +1,34 @@
 package hello.util;
 
+import static hello.util.EnvironmentVariables.INSTANCE_NAME;
+
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.ThreadContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
-public class LoggingContextFilter implements Filter {
-
-	private static final String INSTANCE_NAME = "instanceName";
+public class LoggingContextFilter extends OncePerRequestFilter {
 
 	private final InstanceConfiguration instanceConfiguration;
 
+	@Autowired
 	public LoggingContextFilter(InstanceConfiguration instanceConfiguration) {
 		this.instanceConfiguration = instanceConfiguration;
 	}
 
 	@Override
-	public void init(FilterConfig filterConfig) {
-
-	}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 		ThreadContext.put(INSTANCE_NAME, instanceConfiguration.getInstanceName());
-		chain.doFilter(request, response);
+		filterChain.doFilter(request, response);
 	}
 
 	@Override

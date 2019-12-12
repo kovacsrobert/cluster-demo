@@ -1,4 +1,4 @@
-package hello.web.config;
+package hello.util;
 
 public interface EnvironmentVariables {
 

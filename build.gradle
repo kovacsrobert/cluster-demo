@@ -66,13 +66,4 @@ configure(subprojects.findAll {it.name == "cluster-dao" || it.name == "cluster-w
     dependencies {
         implementation project(':cluster-util')
     }
-
-    task copyProdLoggingConfiguration() {
-        doLast {
-            copy {
-                from rootProject.file("config/log4j2.xml")
-                into "$buildDir/resources/main/"
-            }
-        }
-    }
 }

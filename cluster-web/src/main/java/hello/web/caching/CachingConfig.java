@@ -1,7 +1,7 @@
 package hello.web.caching;
 
 import static hello.util.EnvironmentUtils.getConfiguration;
-import static hello.web.config.EnvironmentVariables.TERRACOTTA_HOST;
+import static hello.util.EnvironmentVariables.TERRACOTTA_HOST;
 import static hello.web.config.Profiles.IGNORE_CACHING;
 import static org.ehcache.clustered.client.config.builders.ClusteredResourcePoolBuilder.clusteredDedicated;
 import static org.ehcache.config.builders.CacheManagerBuilder.newCacheManagerBuilder;

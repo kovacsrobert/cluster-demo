@@ -6,9 +6,6 @@ task buildCluster() {
 
     subprojects
         .each { dependsOn("${it.name}:build") }
-    subprojects
-        .findAll({it.name == "cluster-dao" || it.name == "cluster-web"})
-        .each { dependsOn("${it.name}:copyProdLoggingConfiguration") }
 
     doLast {
         exec {
