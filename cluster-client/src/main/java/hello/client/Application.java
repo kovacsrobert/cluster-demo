@@ -1,7 +1,9 @@
 package hello.client;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +35,16 @@ public class Application implements CommandLineRunner {
     public void run(String... args) {
         loggingUtil.fillLoggingContext();
 
-        final String clientPrefix = "client-" + counter.getAndIncrement();
+        while (!Thread.currentThread().isInterrupted()) {
+            String randomText = RandomStringUtils.randomAlphabetic(10);
+            logger.info("new random text: {}", randomText);
 
-        logger.info("Creating RandomClient with prefix: {}", clientPrefix);
-
-        RandomClient randomClient = new RandomClient(restTemplate, clientPrefix);
-        randomClient.startCalls();
-
-        logger.info("Stopping RandomClient with prefix: {}", clientPrefix);
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                logger.error(e);
+            }
+        }
 
         loggingUtil.removeLoggingContext();
     }

@@ -2,22 +2,63 @@
 <Configuration status="WARN">
 
     <Properties>
+        <Property name="logDir">/tmp/cluster-client/</Property>
+        <Property name="maxLogSize">1 KB</Property>
+        <Property name="deleteLogsAfter">$${env:logfiles.ttl:-${sys:logfiles.ttl:-10m}}</Property>
+        <Property name="rolloverFilePattern">%d{yyyy-MM-dd}-%i</Property>
         <Property name="logPattern">[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} [%X{INSTANCE_NAME}] - %msg%n</Property>
     </Properties>
 
     <Appenders>
+
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="${logPattern}" />
         </Console>
+
+        <!-- logfile (main) -->
+        <RollingRandomAccessFile name="mainlogfile" append="true" fileName="${logDir}/log.txt"
+                                 filePattern="${logDir}/${rolloverFilePattern}-cb.txt.zip">
+            <PatternLayout pattern="${logPattern}" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="${maxLogSize}"/>
+            </Policies>
+            <!-- the latest rollover file is the #1 and as older has higher numbers: and keep all -->
+            <DefaultRolloverStrategy fileIndex="min" max="99999999">
+                <!-- this will delete old log files over 60 days -->
+                <Delete basePath="${logDir}" maxDepth="1">
+                    <IfFileName glob="*.txt.zip" />
+                    <IfLastModified age="${deleteLogsAfter}" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+
+        <!-- logfile (errors only) -->
+        <RollingRandomAccessFile name="errorlogfile" append="true" fileName="${logDir}/errors.txt"
+                                 filePattern="${logDir}/${rolloverFilePattern}-errors.txt.zip">
+            <PatternLayout pattern="${logPattern}" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="${maxLogSize}"/>
+            </Policies>
+            <DefaultRolloverStrategy fileIndex="min" max="99999999"/>
+        </RollingRandomAccessFile>
+
     </Appenders>
 
     <Loggers>
         <Root level="info" additivity="false">
             <appender-ref ref="console" />
+            <appender-ref ref="mainlogfile" />
+            <appender-ref ref="errorlogfile" />
         </Root>
 
         <Logger name="hello" level="info" additivity="false">
             <appender-ref ref="console" />
+            <appender-ref ref="mainlogfile" />
+            <appender-ref ref="errorlogfile" />
         </Logger>
     </Loggers>
 

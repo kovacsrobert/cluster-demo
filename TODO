@@ -2,6 +2,7 @@ Backlog:
 - add db to dao component
 - try solution in AWS
 - try docker swarm
+- add heartbeat solution again, maybe different logging
 - add testing/loading solution
 - add load-balancing
 - add network in docker
@@ -15,7 +16,6 @@ Done:
 + generate tmp files to /tmp, not into current dir
 + add util module
 + use terracotta for distributed caching
-+ add heartbeat solution
 + add ELK stack in docker-compose
 + add filebeat solution
 + refine filebeat fields with logstash: host, log-level
